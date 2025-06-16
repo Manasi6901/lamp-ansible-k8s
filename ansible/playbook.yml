@@ -1,0 +1,29 @@
+- name: Deploy LAMP Stack on Kubernetes
+  hosts: localhost
+  tasks:
+    - name: Create Persistent Volumes
+      kubernetes.core.k8s:
+        state: present
+        src: ../k8s/persistent-volumes.yaml
+        namespace: default
+
+    - name: Deploy MySQL
+      kubernetes.core.k8s:
+        state: present
+        src: ../k8s/mysql-deployment.yaml
+        namespace: default
+
+    - name: Deploy Apache
+      kubernetes.core.k8s:
+        kubeconfig: ~/.kube/config
+        state: present
+        src: ../k8s/apache-deployment.yaml
+        namespace: default
+
+    - name: Deploy PHP
+      kubernetes.core.k8s:
+        kubeconfig: ~/.kube/config
+        state: present
+        src: ../k8s/php-deployment.yaml
+        namespace: default
+
